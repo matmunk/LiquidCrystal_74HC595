@@ -1,20 +1,41 @@
 # LiquidCrystal_74HC595 #
 
-Communicate with HD44780 (or compatible) LCDs through a 74HC595 shift register over SPI. This reduces the number of pins needed to control the LCD from 6 to 3 pins (in 4 bit mode). The mapping from pins on the LCD to pins on the shift register is configurable, so this library should also work with other shift registers. Mostly compatible with the default LiquidCrystal library.
+This library allows an Arduino board to control Hitachi HD44780 based (or compatible) LCDs through a 74HC595 shift register using SPI. This provides a very cost effective way of reducing the number of pins needed to control an LCD (from 6 to 3 pins in 4 bit mode).
+
+It is based on the default `LiquidCrystal` library, and is basically a drop-in replacement with the only differences being an additional parameter required in the constructor and no support for 8 bit mode.
+
+The motivation behind creating this library is that all existing libraries assume a static mapping between the pins on the LCD and the shift register. This can be impractical depending on the physical layout of the components, and also limits the number of other shift registers which can be used.
 
 ## Usage ##
 
-Connect the LCD to your Arduino as shown below. The connections from pins RS, E, D4, D5, D6, and D7 on the LCD to the shift register must be explicitly defined. In this example they are as follows:
+Connect an LCD to your Arduino as shown below. The connections from pins RS, E, D4, D5, D6, and D7 on the LCD to the shift register must be explicitly defined. In this example they are as follows:
 
 ```
 RS -> 1
-E -> 2
-D4 -> 3
-D5 -> 4
-D6 -> 5
-D7 -> 6
+E  -> 3
+D4 -> 4
+D5 -> 5
+D6 -> 6
+D7 -> 7
 ```
 
-Additionally, the pin on the Arduino connected to the latch pin (aka ST_CP) on the shift register is also required (pin 9 in this example).
+where the right-hand side denotes the pin on the shift register. Additionally, the pin on the Arduino connected to the latch pin (aka ST_CP) on the shift register is also required (pin 11 in this example).
+
+Using the library is straightforward:
+
+```
+#include <LiquidCrystal_74HC595.h>
+
+LiquidCrystal_74HC595 lcd(11, 1, 3, 4, 5, 6, 7);
+
+void setup() {
+    lcd.begin(20, 4);
+    lcd.print("Hello, World!");
+}
+
+void loop() {}
+```
+
+Everything else is identical to the official library. Please refer to the [documentation](https://www.arduino.cc/en/Reference/LiquidCrystal) for more information.
 
 ![LCD connected to Arduino via 74HC595 shift register](/extras/example.png)
