@@ -23,10 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <LiquidCrystal_74HC595.h>
 
-LiquidCrystal_74HC595::LiquidCrystal_74HC595(uint8_t latch, uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3) {
+LiquidCrystal_74HC595::LiquidCrystal_74HC595(uint8_t latch, uint8_t rs, uint8_t e, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3) {
     _latch = latch;
     _rs = rs;
-    _enable = enable;
+    _e = e;
     _d0 = d0;
     _d1 = d1;
     _d2 = d2;
@@ -158,11 +158,11 @@ void LiquidCrystal_74HC595::createChar(uint8_t location, uint8_t charmap[]) {
 }
 
 inline void LiquidCrystal_74HC595::command(uint8_t value) {
-    send(value, LOW);
+    send(value, 0);
 }
 
 inline size_t LiquidCrystal_74HC595::write(uint8_t value) {
-    send(value, HIGH);
+    send(value, 1);
     return 1;
 }
 
@@ -174,13 +174,13 @@ void LiquidCrystal_74HC595::send(uint8_t value, uint8_t mode) {
 }
 
 void LiquidCrystal_74HC595::pulseEnable() {
-    bitWrite(_bitString, _enable, LOW);
+    bitWrite(_bitString, _e, 0);
     spiTransfer();
     delayMicroseconds(1);
-    bitWrite(_bitString, _enable, HIGH);
+    bitWrite(_bitString, _e, 1);
     spiTransfer();
     delayMicroseconds(1);
-    bitWrite(_bitString, _enable, LOW);
+    bitWrite(_bitString, _e, 0);
     spiTransfer();
     delayMicroseconds(50);
 }

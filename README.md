@@ -8,7 +8,7 @@ Connect the LCD to your Arduino as shown below. The connections from pins RS, E,
 
 ```
 RS -> 1
-EN -> 2
+E -> 2
 D4 -> 3
 D5 -> 4
 D6 -> 5

@@ -60,8 +60,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class LiquidCrystal_74HC595 : public Print {
     public:
-        LiquidCrystal_74HC595(uint8_t latch, uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
-
+        LiquidCrystal_74HC595(uint8_t latch, uint8_t rs, uint8_t e, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
         void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
         void clear();
         void home();
@@ -78,20 +77,18 @@ class LiquidCrystal_74HC595 : public Print {
         void autoscroll();
         void noAutoscroll();
         void createChar(uint8_t, uint8_t[]);
-        void setCursor(uint8_t, uint8_t); 
+        void setCursor(uint8_t, uint8_t);
         void command(uint8_t);
         virtual size_t write(uint8_t);
-
         using Print::write;
     private:
         void send(uint8_t, uint8_t);
         void write4bits(uint8_t);
         void pulseEnable();
         void spiTransfer();
-
         uint8_t _latch;
         uint8_t _rs;
-        uint8_t _enable;
+        uint8_t _e;
         uint8_t _d0;
         uint8_t _d1;
         uint8_t _d2;
