@@ -5,10 +5,10 @@ clear	KEYWORD2
 home	KEYWORD2
 noDisplay	KEYWORD2
 display	KEYWORD2
-noBlink	KEYWORD2
-blink	KEYWORD2
 noCursor	KEYWORD2
 cursor	KEYWORD2
+noBlink	KEYWORD2
+blink	KEYWORD2
 scrollDisplayLeft	KEYWORD2
 scrollDisplayRight	KEYWORD2
 leftToRight	KEYWORD2
@@ -18,6 +18,7 @@ noAutoscroll	KEYWORD2
 createChar	KEYWORD2
 setCursor	KEYWORD2
 command	KEYWORD2
+write	KEYWORD2
 print	KEYWORD2
 
 LCD_CLEARDISPLAY    LITERAL1

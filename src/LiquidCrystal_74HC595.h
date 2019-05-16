@@ -1,33 +1,7 @@
-/*
-The MIT License (MIT)
-
-Copyright (c) 2019 Mathias Munk Hansen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
 #ifndef LIQUID_CRYSTAL_74HC595_H
 #define LIQUID_CRYSTAL_74HC595_H
 
-#include <inttypes.h>
 #include <Arduino.h>
-#include <Print.h>
-#include <SPI.h>
 
 #define LCD_CLEARDISPLAY 0x01
 #define LCD_RETURNHOME 0x02
@@ -60,33 +34,36 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class LiquidCrystal_74HC595 : public Print {
     public:
-        LiquidCrystal_74HC595(uint8_t latch, uint8_t rs, uint8_t e, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+        LiquidCrystal_74HC595(uint8_t ds, uint8_t shcp, uint8_t stcp,
+                uint8_t rs, uint8_t e, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
         void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
         void clear();
         void home();
         void noDisplay();
         void display();
-        void noBlink();
-        void blink();
         void noCursor();
         void cursor();
+        void noBlink();
+        void blink();
         void scrollDisplayLeft();
         void scrollDisplayRight();
         void leftToRight();
         void rightToLeft();
         void autoscroll();
         void noAutoscroll();
-        void createChar(uint8_t, uint8_t[]);
-        void setCursor(uint8_t, uint8_t);
-        void command(uint8_t);
-        virtual size_t write(uint8_t);
+        void createChar(uint8_t location, uint8_t charmap[]);
+        void setCursor(uint8_t col, uint8_t row);
+        void command(uint8_t value);
+        virtual size_t write(uint8_t value);
         using Print::write;
     private:
-        void send(uint8_t, uint8_t);
-        void write4bits(uint8_t);
+        void send(uint8_t value, uint8_t mode);
         void pulseEnable();
-        void spiTransfer();
-        uint8_t _latch;
+        void write4bits(uint8_t value);
+        void transfer();
+        uint8_t _ds;
+        uint8_t _shcp;
+        uint8_t _stcp;
         uint8_t _rs;
         uint8_t _e;
         uint8_t _d0;
@@ -95,10 +72,9 @@ class LiquidCrystal_74HC595 : public Print {
         uint8_t _d3;
         uint8_t _cols;
         uint8_t _rows;
-        uint8_t _displayFunction;
         uint8_t _displayControl;
         uint8_t _displayMode;
-        uint8_t _bitString;
+        uint8_t _register;
 };
 
 #endif
