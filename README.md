@@ -29,8 +29,8 @@ Using the library is straightforward:
 LiquidCrystal_74HC595 lcd(11, 13, 12, 1, 3, 4, 5, 6, 7);
 
 void setup() {
-    lcd.begin(20, 4);
-    lcd.print("Hello, World!");
+  lcd.begin(20, 4);
+  lcd.print("Hello, World!");
 }
 
 void loop() {}
